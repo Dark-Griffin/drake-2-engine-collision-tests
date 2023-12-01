@@ -42,8 +42,14 @@ def tick args
   if args.inputs.mouse.click
     x = (args.inputs.mouse.x / 32).floor
     y = (args.inputs.mouse.y / 32).floor
-    args.state.tilegrid.tile_grid[x][y][:path] = 'sprites/tile/wall-1111.png'
-    args.state.tilegrid.tile_grid[x][y][:collision] = :solid
+    #if tile is passable make a wall, otherwise make it empty again
+    if args.state.tilegrid.tile_grid[x][y][:collision] == :empty
+      args.state.tilegrid.tile_grid[x][y][:path] = 'sprites/tile/wall-1111.png'
+      args.state.tilegrid.tile_grid[x][y][:collision] = :solid
+    else
+      args.state.tilegrid.tile_grid[x][y][:path] = 'sprites/empty.png'
+      args.state.tilegrid.tile_grid[x][y][:collision] = :empty
+    end
   end
 
   # render fps in upper left corner

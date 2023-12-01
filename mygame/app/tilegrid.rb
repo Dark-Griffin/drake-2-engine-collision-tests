@@ -31,6 +31,7 @@ class TileGrid
         #can do tile updates if needed here
     end
 
+    #check if a tile coordinate collides with a solid tile
     def collides? x, y
         #if out of index, return false
         if x < 0 || x > @grid_width || y < 0 || y > @grid_height
@@ -44,6 +45,7 @@ class TileGrid
         end
     end
 
+    #check if a pixel coordinate collides with a solid tile
     def collides_pixel? screenx, screeny
         #check if the pixel at screenx, screeny is solid
         x = (screenx / @tile_width).floor
