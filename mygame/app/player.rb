@@ -8,21 +8,23 @@ class Player
         @y = 540
         @xmove = 0
         @ymove = 0
-        @state = :idle
+        @state = :falling
         #possible states: idle, walking, jumping, falling
         @direction = :right
         #settings for the player that don't need accessors
-        @jumpInitialSpeed = 10 #how fast the player jumps up when pressing jump, this is applied once immediately
-        @jumpspeed = 0.5 #how fast the player jumps up when holding a jump action, this is applied over time as the player holds the jump button
+        @w = 32 #width of the player collision box
+        @h = 64 #height of the player collision box
+        @jumpInitialSpeed = 8 #how fast the player jumps up when pressing jump, this is applied once immediately
+        @jumpspeed = 1 #how fast the player jumps up when holding a jump action, this is applied over time as the player holds the jump button
         @jumptime = 0 #how long the player held this current jump, to force stop jump if maxjumptime is reached
-        @maxjumptime = 20 #how long the player can hold a jump
+        @maxjumptime = 8 #how long the player can hold a jump
         @walkspeed = 6 #how fast the player walks
-        @maxfallingspeed = -10 #how fast the player can fall due to gravity
+        @maxfallingspeed = -16 #how fast the player can fall due to gravity
     end
 
     def render args
         #render the player collision box
-        args.outputs.sprites << [x, y, 64, 64, 'sprites/square/gray.png']
+        args.outputs.sprites << [@x, @y, @w, @h, 'sprites/square/gray.png']
     end
 
     def tick args
@@ -55,8 +57,11 @@ class Player
         ##########
         # y movement stuff
         #handle gravity
-        if @ymove > -10 && @state != :jumping #don't apply gravity if we are jumping
+        if @ymove > @maxfallingspeed && @state != :jumping #don't apply gravity if we are jumping
             @ymove -= $gravity
+            if @ymove < @maxfallingspeed
+                @ymove = @maxfallingspeed
+            end
         end
 
         #if jumping, move up
