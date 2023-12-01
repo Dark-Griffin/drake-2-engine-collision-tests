@@ -10,7 +10,7 @@ require 'app/player.rb'
 require 'app/tilegrid.rb'
 
 def tick args
-  args.outputs.labels  << [640, 540, 'Platformer Castlevania Style Game', 5, 1]
+  args.outputs.labels  << [640, 540, 'Drake 2 Game', 5, 1]
 
   args.state.player ||= Player.new #initialize the player object
   args.state.tilegrid ||= TileGrid.new #initialize the tilegrid object
