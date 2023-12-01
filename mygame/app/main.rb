@@ -10,7 +10,12 @@ require 'app/player.rb'
 require 'app/tilegrid.rb'
 
 def tick args
-  args.outputs.labels  << [640, 540, 'Drake 2 Game', 5, 1]
+  args.outputs.labels  << [640, 540, 'Drake 2 Game collision testing', 5, 1]
+  args.outputs.labels  << [640, 500, 'by Gawain Doell', 5, 1]
+  args.outputs.labels  << [640, 460, 'left and right to walk, up to jump(can be held), and click to place a tile.', 5, 1]
+  args.outputs.labels  << [640, 420, 'yellow tiles have been checked for raytrace solid check.  Red squares indicate found tiles.', 1, 1]
+  args.outputs.labels  << [640, 380, 'gray square is the player collider', 1, 1]
+  args.outputs.labels  << [640, 340, 'raycasts are called based on state of player movement', 1, 1]
 
   args.state.player ||= Player.new #initialize the player object
   args.state.tilegrid ||= TileGrid.new #initialize the tilegrid object
