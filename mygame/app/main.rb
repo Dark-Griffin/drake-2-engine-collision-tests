@@ -41,5 +41,7 @@ def tick args
     args.state.tilegrid.tile_grid[x][y][:collision] = :solid
   end
 
+  # render fps in upper left corner
+  args.outputs.labels  << [0, 720, "fps: #{args.gtk.current_framerate.to_i}"]
 end
 

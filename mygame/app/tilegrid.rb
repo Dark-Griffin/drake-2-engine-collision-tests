@@ -93,6 +93,9 @@ class TileGrid
             #putz("checking tile #{tilex}, #{tiley}")
 
             if @tile_grid[tilex][tiley][:collision] == :solid
+                #debug, render a red outline around the solid tile hit
+                $gtk.args.outputs.sprites << [tilex * @tile_width, tiley * @tile_height, @tile_width, @tile_height, 'sprites/square/red.png']
+                #we hit a solid tile, return it
                 return @tile_grid[tilex][tiley]
             end
             if direction == :up
