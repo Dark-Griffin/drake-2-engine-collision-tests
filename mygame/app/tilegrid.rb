@@ -32,6 +32,10 @@ class TileGrid
     end
 
     def collides? x, y
+        #if out of index, return false
+        if x < 0 || x > @grid_width || y < 0 || y > @grid_height
+            return false
+        end
         #check if the tile at x, y is solid
         if @tile_grid[x][y][:collision] == :solid
             return true
@@ -44,6 +48,10 @@ class TileGrid
         #check if the pixel at screenx, screeny is solid
         x = (screenx / @tile_width).floor
         y = (screeny / @tile_height).floor
+        #if out of range, return false
+        if x < 0 || x > @grid_width || y < 0 || y > @grid_height
+            return false
+        end
         if @tile_grid[x][y][:collision] == :solid
             return true
         else

@@ -2,7 +2,7 @@
 # by: Gawain Doell 2023
 
 #some global stuff anything in game can use
-$gravity = 0.5; #gravity constant
+$gravity = 2.0; #gravity constant
 
 
 #include the player script

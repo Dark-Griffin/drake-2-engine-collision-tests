@@ -9,7 +9,15 @@ class Player
         @xmove = 0
         @ymove = 0
         @state = :idle
+        #possible states: idle, walking, jumping, falling
         @direction = :right
+        #settings for the player that don't need accessors
+        @jumpInitialSpeed = 10 #how fast the player jumps up when pressing jump, this is applied once immediately
+        @jumpspeed = 0.5 #how fast the player jumps up when holding a jump action, this is applied over time as the player holds the jump button
+        @jumptime = 0 #how long the player held this current jump, to force stop jump if maxjumptime is reached
+        @maxjumptime = 20 #how long the player can hold a jump
+        @walkspeed = 6 #how fast the player walks
+        @maxfallingspeed = -10 #how fast the player can fall due to gravity
     end
 
     def render args
@@ -47,9 +55,19 @@ class Player
         ##########
         # y movement stuff
         #handle gravity
-        if @ymove > -10
+        if @ymove > -10 && @state != :jumping #don't apply gravity if we are jumping
             @ymove -= $gravity
         end
+
+        #if jumping, move up
+        if @state == :jumping
+            @ymove += @jumpspeed
+            @jumptime += 1
+            if @jumptime > @maxjumptime
+                @state = :falling
+            end
+        end
+
         #trace the Y movement down, and snap to the nearest solid tile top surface
         if @ymove < 0
             #moving up, check if we hit a solid tile
@@ -57,6 +75,7 @@ class Player
                 #we hit a solid tile, snap to the nearest solid tile bottom surface
                 @y = ((@y + @ymove) / 32).floor * 32 + 32
                 @ymove = 0
+                @state = :idle
             end
         else
             #moving down, check if we hit a solid tile
@@ -64,23 +83,52 @@ class Player
                 #we hit a solid tile, snap to the nearest solid tile top surface
                 @y = ((@y + @ymove) / 32).floor * 32
                 @ymove = 0
+                @state = :idle
             end
         end
+
         #update y position
         @y += @ymove
+
+        #if we fell out the bottom of the screen area, respawn at center
+        if @y < -64
+            @x = 640
+            @y = 540
+        end
 
     end
 
     def handle_inputs args
-        if args.inputs.left
-            @xmove = -6
-            @direction = :left
-        elsif args.inputs.right
-            @xmove = 6
-            @direction = :right
-        else
-            @xmove = 0
+        
+        #if state is idle or walking, allow left and right walking movement
+        if @state == :idle || @state == :walking
+            if args.inputs.left
+                @xmove = -@walkspeed
+                @direction = :left
+            elsif args.inputs.right
+                @xmove = @walkspeed
+                @direction = :right
+            else
+                @xmove = 0
+            end
         end
+
+        #if state is not falling, allow jumping
+        if @state != :falling && @state != :jumping
+            if args.inputs.up
+                @ymove = @jumpInitialSpeed
+                @state = :jumping
+                @jumptime = 0
+            end
+        end
+
+        #if state is jumping, check if we let go of input
+        if @state == :jumping
+            if !args.inputs.up
+                @state = :falling
+            end
+        end
+
     end
 
 end
