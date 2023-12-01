@@ -37,20 +37,47 @@ class Player
         #check for x movement collisions
         if @xmove < 0
             #moving left, check if we hit a solid tile
-            hit_tile = {}
-            hit_tile = args.state.tilegrid.raytrace @x, @y+32, :left
-            putz "tile hit result is #{hit_tile}"
+            hit_tile = args.state.tilegrid.raytrace @x+32, @y+32, :left
+            #also check the bottom tile of player square
+            hit_tile2 = args.state.tilegrid.raytrace @x+32, @y+1, :left
+            #if tile 2 is a closer hit, pass that in instead
+            if hit_tile2 != nil
+                if hit_tile != nil
+                    if hit_tile2.x > hit_tile.x
+                        hit_tile = hit_tile2
+                    end
+                else
+                    hit_tile = hit_tile2
+                end
+            end
+
+            #putz "tile hit result is #{hit_tile}"
             if hit_tile != nil && hit_tile.x > @x + @xmove - 32 #moving this distance would hit a solid tile
                 putz "hit a solid tile"
                 #we hit a solid tile, snap to the tile
                 @x = hit_tile.x + 32
                 @xmove = 0
             end
-        else
+        elsif @xmove > 0
             #moving right, check if we hit a solid tile
-            if args.state.tilegrid.collides_pixel? @x + @xmove + 64, @y
+            hit_tile = args.state.tilegrid.raytrace @x, @y+32, :right
+            #also check the bottom tile of player square
+            hit_tile2 = args.state.tilegrid.raytrace @x, @y+1, :right
+            #if tile 2 is a closer hit, pass that in instead
+            if hit_tile2 != nil
+                if hit_tile != nil
+                    if hit_tile2.x < hit_tile.x
+                        hit_tile = hit_tile2
+                    end
+                else
+                    hit_tile = hit_tile2
+                end
+            end
+
+            if hit_tile != nil && hit_tile.x < @x + @xmove + 32 #moving this distance would hit a solid tile
+                putz "hit a solid tile"
                 #we hit a solid tile, snap to the nearest solid tile left surface
-                @x = ((@x + @xmove) / 32).floor * 32
+                @x = hit_tile.x - 32
                 @xmove = 0
             end
         end
