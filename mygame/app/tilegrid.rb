@@ -69,7 +69,7 @@ class TileGrid
         x = (x / @tile_width).floor
         y = (y / @tile_height).floor
 
-        putz("raytrace called with x:#{x}, y:#{y}, direction:#{direction}")
+        #putz("raytrace called with x:#{x}, y:#{y}, direction:#{direction}")
         #debug, draw a line along our raytrace check
         if direction == :left
             $gtk.args.outputs.lines << [x, y, x-100, y, 255, 0, 0]
@@ -96,7 +96,7 @@ class TileGrid
         while tilex >= 0 && tilex <= @grid_width && tiley >= 0 && tiley <= @grid_height
             #debug, draw the tile being checked as a yellow outline
             $gtk.args.outputs.solids << [tilex * @tile_width, tiley * @tile_height, @tile_width, @tile_height, 255, 255, 0]
-            putz("checking tile #{tilex}, #{tiley}")
+            #putz("checking tile #{tilex}, #{tiley}")
 
             if @tile_grid[tilex][tiley][:collision] == :solid
                 return @tile_grid[tilex][tiley]
