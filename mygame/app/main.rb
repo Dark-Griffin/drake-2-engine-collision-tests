@@ -29,7 +29,7 @@ def tick args
 
   #test code, make a floor so we don't fall into empty space
   for i in 0..args.state.tilegrid.grid_width
-    args.state.tilegrid.tile_grid[i][0][:sprite] = 'sprites/tile/wall-1111.png'
+    args.state.tilegrid.tile_grid[i][0][:path] = 'sprites/tile/wall-1111.png'
     args.state.tilegrid.tile_grid[i][0][:collision] = :solid
   end
 
@@ -37,7 +37,7 @@ def tick args
   if args.inputs.mouse.click
     x = (args.inputs.mouse.x / 32).floor
     y = (args.inputs.mouse.y / 32).floor
-    args.state.tilegrid.tile_grid[x][y][:sprite] = 'sprites/tile/wall-1111.png'
+    args.state.tilegrid.tile_grid[x][y][:path] = 'sprites/tile/wall-1111.png'
     args.state.tilegrid.tile_grid[x][y][:collision] = :solid
   end
 

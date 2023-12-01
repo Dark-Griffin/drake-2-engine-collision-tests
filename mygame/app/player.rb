@@ -37,9 +37,13 @@ class Player
         #check for x movement collisions
         if @xmove < 0
             #moving left, check if we hit a solid tile
-            if args.state.tilegrid.collides_pixel? @x + @xmove, @y
-                #we hit a solid tile, snap to the nearest solid tile right surface
-                @x = ((@x + @xmove) / 32).floor * 32 + 32
+            hit_tile = {}
+            hit_tile = args.state.tilegrid.raytrace @x, @y+32, :left
+            putz "tile hit result is #{hit_tile}"
+            if hit_tile != nil && hit_tile.x > @x + @xmove - 32 #moving this distance would hit a solid tile
+                putz "hit a solid tile"
+                #we hit a solid tile, snap to the tile
+                @x = hit_tile.x + 32
                 @xmove = 0
             end
         else
