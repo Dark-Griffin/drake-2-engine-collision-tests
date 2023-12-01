@@ -69,12 +69,6 @@ class TileGrid
         x = (x / @tile_width).floor
         y = (y / @tile_height).floor
 
-        #putz("raytrace called with x:#{x}, y:#{y}, direction:#{direction}")
-        #debug, draw a line along our raytrace check
-        if direction == :left
-            $gtk.args.outputs.lines << [x, y, x-100, y, 255, 0, 0]
-        end
-
         #if out of index, return nil
         if x < 0 || x > @grid_width || y < 0 || y > @grid_height
             return nil
