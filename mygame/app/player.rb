@@ -101,7 +101,7 @@ class Player
     def handle_inputs args
         
         #if state is idle or walking, allow left and right walking movement
-        if @state == :idle || @state == :walking
+        if @state == :idle || @state == :walking || @state == :falling
             if args.inputs.left
                 @xmove = -@walkspeed
                 @direction = :left
