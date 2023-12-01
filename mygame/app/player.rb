@@ -18,7 +18,7 @@ class Player
         @jumpspeed = 1 #how fast the player jumps up when holding a jump action, this is applied over time as the player holds the jump button
         @jumptime = 0 #how long the player held this current jump, to force stop jump if maxjumptime is reached
         @maxjumptime = 8 #how long the player can hold a jump
-        @walkspeed = 6 #how fast the player walks
+        @walkspeed = 4 #how fast the player walks
         @maxfallingspeed = -16 #how fast the player can fall due to gravity
     end
 
@@ -105,19 +105,46 @@ class Player
         end
 
         #trace the Y movement down, and snap to the nearest solid tile top surface
-        if @ymove < 0
+        if @ymove > 0
             #moving up, check if we hit a solid tile
-            if args.state.tilegrid.collides_pixel? @x, @y + @ymove
-                #we hit a solid tile, snap to the nearest solid tile bottom surface
-                @y = ((@y + @ymove) / 32).floor * 32 + 32
-                @ymove = 0
-                @state = :idle
+            hit_tile = args.state.tilegrid.raytrace @x+1, @y+32, :up
+            hit_tile2 = args.state.tilegrid.raytrace @x+31, @y+32, :up
+            #if tile 2 is a closer hit, pass that in instead
+            if hit_tile2 != nil
+                if hit_tile != nil
+                    if hit_tile2.y < hit_tile.y
+                        hit_tile = hit_tile2
+                    end
+                else
+                    hit_tile = hit_tile2
+                end
             end
-        else
+
+            if hit_tile != nil && hit_tile.y < @y + @ymove + 64 #moving this distance would hit a solid tile
+                #we hit a solid tile, snap to the nearest solid tile bottom surface
+                @y = hit_tile.y - 64
+                @ymove = 0
+                @state = :falling
+            end
+        elsif @ymove < 0
             #moving down, check if we hit a solid tile
-            if args.state.tilegrid.collides_pixel? @x, @y + @ymove
+            hit_tile = args.state.tilegrid.raytrace @x+1, @y, :down
+            hit_tile2 = args.state.tilegrid.raytrace @x+31, @y, :down
+            #if tile 2 is a closer hit, pass that in instead
+            if hit_tile2 != nil
+                if hit_tile != nil
+                    if hit_tile2.y > hit_tile.y
+                        hit_tile = hit_tile2
+                    end
+                else
+                    hit_tile = hit_tile2
+                end
+            end
+
+            if hit_tile != nil && hit_tile.y > @y + @ymove - 64 #moving this distance would hit a solid tile
+                putz "vertical hit"
                 #we hit a solid tile, snap to the nearest solid tile top surface
-                @y = ((@y + @ymove) / 32).floor * 32
+                @y = hit_tile.y + 32
                 @ymove = 0
                 @state = :idle
             end
