@@ -1,4 +1,4 @@
-# a castlevania style platforming game
+# Drake 2 engine, a platformer game starring Drake
 # by: Gawain Doell 2023
 
 #some global stuff anything in game can use
