@@ -13,7 +13,8 @@ class Player
     end
 
     def render args
-        args.outputs.sprites << [x, y, 64, 64, 'sprites/player.png']
+        #render the player collision box
+        args.outputs.sprites << [x, y, 64, 64, 'sprites/square/gray.png']
     end
 
     def tick args
