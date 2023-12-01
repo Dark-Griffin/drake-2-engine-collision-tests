@@ -30,5 +30,26 @@ class TileGrid
     def tick args
         #can do tile updates if needed here
     end
+
+    def collides? x, y
+        #check if the tile at x, y is solid
+        if @tile_grid[x][y][:collision] == :solid
+            return true
+        else
+            return false
+        end
+    end
+
+    def collides_pixel? screenx, screeny
+        #check if the pixel at screenx, screeny is solid
+        x = (screenx / @tile_width).floor
+        y = (screeny / @tile_height).floor
+        if @tile_grid[x][y][:collision] == :solid
+            return true
+        else
+            return false
+        end
+    end
+
 end
 

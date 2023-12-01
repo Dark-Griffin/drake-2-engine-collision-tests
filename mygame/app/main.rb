@@ -1,6 +1,10 @@
 # a castlevania style platforming game
 # by: Gawain Doell 2023
 
+#some global stuff anything in game can use
+$gravity = 0.5; #gravity constant
+
+
 #include the player script
 require 'app/player.rb'
 require 'app/tilegrid.rb'
