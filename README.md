@@ -1,5 +1,7 @@
 This is a demonstration of how to use tile "raytracing" to quickly find if a wall is below, above, or to the left and right of an object.  I needed something fast and general for a prototype game.  It works really well, so I am sharing with the Dragon Ruby community as some inspiration.
 
+![Cheap Screenshot showing a square, yellow bars along the tiles representing a trace, and red cubes showing the tiles that are being contacted by the checks](screenshots/Screenshot.png?raw=true "A Cheap Screenshot")
+
 The magic happens in mygame/app/Tilemap.rb  In particular, have a look at the raytrace function there at line 65.  This gets used in the player.rb tick functions to check as movement updates.  Notice how instead of checking a whole box, the player script is free to use starting pixel points relative to the player position, and just ask the Tilemap if something or nil was hit from that location + direction.
 
 There is some platforming code here, but it would take some tweaking and expanding to feel good.  I wouldn't recommend building a game for this movement out of the box, it's only the first part of a much larger state machine.  The platforming code is not part of the demo, I just needed something moving to show how you don't need to check every frame if not moving that way.
