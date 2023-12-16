@@ -15,3 +15,9 @@ As you can see, this check is very fast, compared to checking each pixel along a
 Have fun!
 
 If you make something cool with it, hit me up at darkgrif@gmail.com  I'd love to see what you made!
+
+I apologise for the distinct lack of actual Drake in this project.  We are working on the movement before adding graphics, so there is just the grey squares and no actual drake movement code.  The actual platformer will be done in a different project branch to keep this one as simple demo of raycasting over tiles.
+
+LICENSE OF USE
+
+Use for anything you like.  Credit is appreciated but not needed.  If you credit me, use the handle Dark-Griffin or the name Gawain Doell in your credit entry, either one is fine.  Don't forget to let me know you got some use out of it!
